@@ -12,5 +12,10 @@
         public DateTime DateAdded { get; set; }
         public string Genre { get; set; }
         public string Author { get; set; }
+
+        // Navigation properties
+        public int PublisherId { get; set; }
+        public Publisher Publisher { get; set; }
+        public List<Book_Author> Book_Authors { get; set; }
     }
 }
