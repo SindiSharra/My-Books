@@ -1,11 +1,13 @@
 using My_Books.Data;
 using Microsoft.EntityFrameworkCore;
+using My_Books.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 builder.Configuration.GetConnectionString("DefaultConnectionString")
 ));
+builder.Services.AddTransient<BooksService>();
 
 // Add services to the container.
 
@@ -28,5 +30,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//AppDbInitializer.Seed(app);
 
 app.Run();
