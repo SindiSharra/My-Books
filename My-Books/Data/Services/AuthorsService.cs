@@ -21,5 +21,15 @@ namespace My_Books.Data.Services
             _dbContext.SaveChanges();
         }
 
+        public AuthorWithBooksVM GetAuthorWithBOoks(int AuthorId)
+        {
+            var author = _dbContext.Authors.Where(a => a.Id == AuthorId).Select(a => new AuthorWithBooksVM()
+            {
+                FullName = a.FullName,
+                BookTitles = a.Book_Authors.Select(a => a.book.Title).ToList()
+            }).FirstOrDefault();
+            return author;
+        }
+
     }
 }

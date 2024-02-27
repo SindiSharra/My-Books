@@ -16,7 +16,7 @@ namespace My_Books.Controllers
             _publishersSerivce = publishersSerivce;
         }
 
-        [HttpPost("add-author")]
+        [HttpPost("add-publisher")]
         public IActionResult AddPublisher([FromBody] PublisherVM publisher)
         {
             _publishersSerivce.AddPublisher(publisher);
