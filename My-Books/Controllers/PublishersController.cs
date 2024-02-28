@@ -22,5 +22,17 @@ namespace My_Books.Controllers
             _publishersSerivce.AddPublisher(publisher);
             return Ok(); 
         }
+        [HttpPost("get-books-by-publisher-id/{id}")]
+        public IActionResult GetBooksByPublisher(int id)
+        {
+            var response = _publishersSerivce.GetPublisherData(id);
+            return Ok(response);
+        }
+        [HttpDelete("delete-publisher-by-id/{id}")]
+        public IActionResult DeletePublisherById(int id)
+        {
+            _publishersSerivce.DeletePublisherById(id);
+            return Ok();
+        }
     }
 }
