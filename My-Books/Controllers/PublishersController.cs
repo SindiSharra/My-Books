@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using My_Books.Data.Services;
 using My_Books.Data.ViewModels;
+using My_Books.Exceptions;
 
 namespace My_Books.Controllers
 {
@@ -19,10 +20,32 @@ namespace My_Books.Controllers
         [HttpPost("add-publisher")]
         public IActionResult AddPublisher([FromBody] PublisherVM publisher)
         {
-            _publishersSerivce.AddPublisher(publisher);
-            return Ok(); 
+            try
+            {
+                var _publisher = _publishersSerivce.AddPublisher(publisher);
+                return Created(nameof(AddPublisher), _publisher);
+            }
+            catch (PublisherNameException ex)
+            {
+                return BadRequest(ex.Message + "=>" + publisher.Name);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
-        [HttpPost("get-books-by-publisher-id/{id}")]
+        [HttpGet("get-publisher-id/{id}")]
+        public IActionResult GetPublisherById(int id)
+        {
+            var response = _publishersSerivce.getPublisherById(id);
+            if(response != null)
+            {
+                return Ok(response);
+            }
+
+            return NotFound();  
+        }
+        [HttpGet("get-books-by-publisher-id/{id}")]
         public IActionResult GetBooksByPublisher(int id)
         {
             var response = _publishersSerivce.GetPublisherData(id);
@@ -31,8 +54,15 @@ namespace My_Books.Controllers
         [HttpDelete("delete-publisher-by-id/{id}")]
         public IActionResult DeletePublisherById(int id)
         {
-            _publishersSerivce.DeletePublisherById(id);
-            return Ok();
+            try
+            {
+                _publishersSerivce.DeletePublisherById(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

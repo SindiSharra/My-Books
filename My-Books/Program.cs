@@ -1,6 +1,7 @@
 using My_Books.Data;
 using Microsoft.EntityFrameworkCore;
 using My_Books.Data.Services;
+using My_Books.Data.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// Exception Handling 
+//app.ConfigureBuildInExceptionHandler();
+app.ConfigureCustomExceptionHandler();
 
 app.MapControllers();
 
